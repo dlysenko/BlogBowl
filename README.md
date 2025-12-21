@@ -45,7 +45,40 @@ BlogBowl is an open-source, self-hosted blogging platform designed for **blogs, 
 4. Open your browser and visit:
     ```
     http://localhost:3000
+    ```
+
+### 🖥️ Running locally (without Docker)
+
+1. **Install prerequisites**
+   - Ruby `3.2.2` (matching `.ruby-version`) and Bundler
+   - [Bun](https://bun.sh/) for JavaScript dependencies
+   - PostgreSQL and Redis (you can boot both with `docker compose -f docker-compose.dev.yaml up -d`)
+2. **Clone the repository with submodules**
+   ```bash
+   git clone --recursive https://github.com/BlogBowl/BlogBowl.git
+   cd BlogBowl
+   # If you already cloned, make sure submodules are pulled:
+   git submodule update --init --recursive
    ```
+3. **Copy environment variables**
+   ```bash
+   cp .env.example .env
+   # Update values as needed, including any third-party tokens.
+   ```
+4. **Install dependencies**
+   ```bash
+   bundle install
+   bun install
+   ```
+5. **Prepare the database**
+   ```bash
+   bin/rails db:prepare
+   ```
+6. **Run the app**
+   ```bash
+   bin/dev
+   ```
+   `bin/dev` starts Rails, Sidekiq, and asset watchers. The app will be available at `http://localhost:3000`.
 
 ### 🔐 Default Credentials
 
@@ -83,11 +116,27 @@ To enable it:
 
 ---
 
+## 🤝 Contributing
+We welcome issues and pull requests! To contribute:
+
+1. **Create a working branch** from `main` for your change.
+2. **Set up your environment** using the steps in the "Running locally (without Docker)" section above. Ensure PostgreSQL and Redis are running (the `docker-compose.dev.yaml` stack works for development).
+3. **Run tests locally** before opening a PR:
+   ```bash
+   # Start test services if needed
+   docker compose -f docker-compose.test.yaml up -d
+
+   # Run the Rails test suite
+   bin/rails test
+   ```
+4. **Keep changes scoped and well-documented**—update README or in-app docs when behavior changes.
+5. **Open a pull request** with a clear description of the problem and how you solved it.
+
+---
+
 ## 📄 License
 
 BlogBowl is open-source under the [MIT License](https://github.com/BlogBowl/BlogBowl/blob/main/LICENSE).
 
 ---
 <p align="center">Built with ❤️ by creators, for creators.</p> 
-
-
